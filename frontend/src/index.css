@@ -3,7 +3,3 @@
 @theme {
   --color-primary: #C3FF00
 }
-
-* {
-  @apply bg-[#051428]
-}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ConnectKitButton } from 'connectkit'
 import { useAccount } from 'wagmi'
 import { useNavigate } from 'react-router-dom'
@@ -25,9 +25,11 @@ const Onboarding = () => {
     navigate('/home')
   }
 
-  if (localStorage.getItem('user')) {
-    navigate('/home')
-  }
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      navigate('/home')
+    }
+  })
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center p-5">

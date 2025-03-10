@@ -6,7 +6,7 @@ import Onboarding from './pages/Onboarding'
 
 const App = () => {
   return (
-    <div className="min-h-screen text-gray-300">
+    <div className="min-h-screen text-gray-300 bg-[#051428]">
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
