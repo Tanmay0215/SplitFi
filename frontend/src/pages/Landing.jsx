@@ -1,13 +1,31 @@
-import React from 'react'
+import { useState } from 'react'
 import image from '/image.png'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { BookUser, Copy, Lock } from 'lucide-react'
 
 const Landing = () => {
   const navigate = useNavigate()
+  const userReferralCode = '1234'
+  const SITE_URL = 'https://splitwise-nu.vercel.app'
+  const [isCopied, setIsCopied] = useState(false)
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(`${SITE_URL}/${userReferralCode}`)
+    setIsCopied(true)
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 2000)
+  }
 
   return (
     <div className="flex flex-col justify-center items-center p-5">
+      Temporary Navbar
+      <div className="flex gap-5 bg-gray-600 p-2">
+        <Link to="/">Landing</Link>
+        <Link to="/onboarding">Onboarding</Link>
+        <Link to="/home">Home</Link>
+        <Link to="/dashboard">Dashboard</Link>
+      </div>
       <div className="min-h-screen flex justify-between items-center md:gap-10">
         <div>
           <h1 className="text-primary text-4xl md:text-6xl font-bold max-w-md mb-2">
@@ -17,7 +35,7 @@ const Landing = () => {
             AND SPLIT BILLS EASILY
           </h3>
           <div
-            className="block bg-primary rounded-full px-5 py-2 border-2 border-primary cursor-pointer"
+            className="bg-primary text-black font-semibold rounded-full px-5 py-2 cursor-pointer"
             onClick={() => navigate('/onboarding')}
           >
             Get Started
@@ -84,19 +102,22 @@ const Landing = () => {
           Invite your friends to Split It and get 1 $EDU for every friend that
           signs up
         </h2>
-        <span>Share this link</span>
-        <p className="text-gray-400 flex justify-center items-center gap-2 p-3">
-          <span>https://split-it-blond.vercel.app/</span>
-          <Copy />
-        </p>
-        <div className="rounded-full px-5 py-2 border-2 border-primary cursor-pointer">
-          Invite Friends
+
+        <div className="rounded-full border-2 border-primary cursor-pointer">
+          <div
+            className="hover:text-gray-400 flex justify-center items-center gap-2 p-3"
+            onClick={copyToClipboard}
+          >
+            <span>https://splitwise-nu.vercel.app/{userReferralCode}</span>
+            <Copy className="cursor-pointer" />
+            {isCopied && <p className="text-green-500">Copied!</p>}
+          </div>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="bg-primary text-gray-500 pt-2 border-t-2 w-full text-center">
-        <p>© 2025 Split It</p>
+      <div className="text-gray-500 pt-2 border-t-2 w-full text-center">
+        <p>© 2025 Rights Reserved. Split It</p>
       </div>
     </div>
   )
