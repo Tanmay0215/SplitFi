@@ -2,21 +2,23 @@ import { useState, useRef, useEffect } from 'react'
 import QrScanner from 'qr-scanner'
 
 const ScanQR = () => {
-  const [scanResult, setScanResult] = useState('')
+  const [scanResult, setScanResult] = useState(null)
   const videoElemRef = useRef(null)
   const [qrScanner, setQrScanner] = useState(null)
+  const [hasScanned, setHasScanned] = useState(false)
 
   useEffect(() => {
+    let scanner = null
     if (videoElemRef.current) {
-      const scanner = new QrScanner(
+      scanner = new QrScanner(
         videoElemRef.current,
         (result) => {
           try {
-            setScanResult(JSON.parse(result.data))
-            console.log("scanResult", scanResult)
-            if (scanResult) {
-              scanner.destroy()
-            }
+            const parsedResult = JSON.parse(result.data)
+            setScanResult(parsedResult)
+            setHasScanned(true)
+            console.log('scanResult', parsedResult)
+            scanner.destroy()
           } catch (error) {
             console.error('Error parsing JSON:', error)
             setScanResult('Error: Invalid QR code format')
@@ -28,21 +30,15 @@ const ScanQR = () => {
       )
       setQrScanner(scanner)
     }
+
+    if (scanner) {
+      scanner.start().catch((err) => console.error(err))
+    }
+
+    return () => {
+      scanner?.destroy()
+    }
   }, [])
-
-  const capture = () => {
-    qrScanner
-      ?.start()
-      .then(() => console.log('started'))
-      .catch((err) => console.error(err))
-  }
-
-  const stopCapture = () => {
-    qrScanner
-      ?.stop()
-      .then(() => console.log('stopped'))
-      .catch((err) => console.error(err))
-  }
 
   const addFriend = () => {
     alert('Friend added')
@@ -50,37 +46,34 @@ const ScanQR = () => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <video
-        ref={videoElemRef}
-        style={{ width: '300px', height: '300px', border: '1px solid white' }}
-      />
-      <div className="mt-4">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-          onClick={capture}
-        >
-          Start Capture
-        </button>
-        <button
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-          onClick={stopCapture}
-        >
-          Stop Capture
-        </button>
-      </div>
-      {scanResult && (
-        <div className="flex flex-col text-green-600 text-sm m-2 p-2 rounded bg-green-50">
-          <span className="font-medium">Scan Result:</span>
-          <span className="font-medium">Name:</span> {scanResult.name}
-          <span className="font-medium">Username:</span> {scanResult.username}
-          <span className="font-medium">Address:</span> {scanResult.address}
+      {!hasScanned ? (
+        <>
+          <video
+            ref={videoElemRef}
+            className="size-72 border-2 border-gray-300 rounded-lg"
+          />
+        </>
+      ) : scanResult && typeof scanResult === 'object' ? (
+        <div className="flex flex-col items-start text-green-600 text-sm m-2 p-4 rounded bg-green-50 shadow-md w-full max-w-md">
+          <span className="font-medium text-gray-700 mb-2">Scan Result:</span>
+          <span className="font-medium text-gray-700">
+            Name: {scanResult.name}
+          </span>
+          <span className="font-medium text-gray-700">
+            Username: {scanResult.username}
+          </span>
+          <span className="font-medium text-gray-700">
+            Address: {scanResult.address}
+          </span>
           <button
             onClick={addFriend}
-            className="bg-primary rounded-full px-4 py-1 text-gray-700"
+            className="mt-4 bg-primary rounded-full px-6 py-2 text-gray-700 hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
           >
             Add Friend
           </button>
         </div>
+      ) : (
+        <div>{scanResult}</div>
       )}
     </div>
   )

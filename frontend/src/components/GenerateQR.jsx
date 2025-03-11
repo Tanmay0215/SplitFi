@@ -14,10 +14,10 @@ const QR = ({ data }) => {
   }
 
   return (
-    <div className="min-h-screen text-gray-300 flex flex-col items-center justify-center">
+    <div>
       {!image && (
         <button
-          className="bg-primary text-white font-bold py-2 px-4 rounded mb-4"
+          className="bg-primary text-gray-800 font-semibold py-2 px-4 rounded mb-4"
           onClick={() => generateQR(JSON.stringify(data))}
         >
           Generate QR
