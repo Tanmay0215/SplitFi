@@ -3,6 +3,7 @@ import Home from './pages/Home'
 import Landing from './pages/Landing'
 import Dashboard from './pages/Dashboard'
 import Onboarding from './pages/Onboarding'
+import AddFriend from './pages/AddFriend'
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/add-friend" element={<AddFriend />} />
       </Routes>
     </div>
   )
