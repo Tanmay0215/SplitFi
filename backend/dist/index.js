@@ -74,8 +74,10 @@ app.post('/addfriend', (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
 }));
-app.get('/getfriends', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post('/getfriends', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
     const name = req.body.name;
+    console.log(name);
     try {
         const friend = yield prisma.user.findUnique({
             where: { name },
@@ -85,12 +87,12 @@ app.get('/getfriends', (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
         console.log(friend === null || friend === void 0 ? void 0 : friend.friends);
         console.log(friend);
-        res.status(200).json({
+        return res.status(200).json({
             friends: friend === null || friend === void 0 ? void 0 : friend.friends
         });
     }
     catch (_a) {
-        res.send(404).json({
+        return res.send(404).json({
             msg: "unable to perform currently try again later"
         });
     }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import UserCard from '../components/UserCard'
 import data from '../data.json'
 import { useAccount } from 'wagmi'
@@ -6,6 +6,7 @@ import { Copy, Plus } from 'lucide-react'
 import { ConnectKitButton } from 'connectkit'
 import GenerateQR from '../components/GenerateQR'
 import { useNavigate } from 'react-router-dom'
+import axios from "axios"
 
 const Home = () => {
   const { name } = JSON.parse(localStorage.getItem('user'))
