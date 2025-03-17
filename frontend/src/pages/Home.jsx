@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import UserCard from '../components/UserCard'
 import data from '../data.json'
 import { useAccount } from 'wagmi'
@@ -6,11 +6,15 @@ import { Copy, Plus } from 'lucide-react'
 import { ConnectKitButton } from 'connectkit'
 import GenerateQR from '../components/GenerateQR'
 import { useNavigate } from 'react-router-dom'
+import SplitExpense from './SplitExpense'
+import axios from 'axios'
 
 const Home = () => {
   const { name } = JSON.parse(localStorage.getItem('user'))
   const { address } = useAccount()
   const [isCopied, setIsCopied] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const user = JSON.parse(localStorage.getItem('user'))
   const navigate = useNavigate()
   const copyToClipboard = () => {
@@ -20,6 +24,21 @@ const Home = () => {
       setIsCopied(false)
     }, 2000)
   }
+
+  // const getFriends = async () => {
+  //   const response = await fetch('http://localhost:3000/getfriends', {
+  //     method: 'POST',
+  //     body: {
+  //       name: 'tanmayGupta',
+  //     },
+  //   })
+  //   const data = await response.json()
+  //   console.log(data)
+  // }
+
+  // useEffect(() => {
+  //   getFriends()
+  // })
 
   return (
     <div className="flex min-h-screen p-8">
@@ -33,13 +52,29 @@ const Home = () => {
         </span>
         <div className="flex justify-between items-center mt-3 gap-1">
           <h2 className="font-bold text-primary uppercase">Friend List</h2>
-          <button
-            onClick={() => navigate('/add-friend')}
-            className="hidden md:flex gap-2 rounded-full px-2 py-2 border-2 border-primary text-sm text-gray-300 font-semibold"
-          >
-            <Plus className="size-5" />
-            Add Friend
-          </button>
+
+          <div className="flex items-center gap-3">
+            <div>
+              <button
+                onClick={() => navigate('/add-friend')}
+                className="hidden md:flex rounded-full items-center gap-2 px-2 py-2 border-2 border-primary text-sm text-gray-300 font-semibold"
+              >
+                <Plus className="size-5" />
+                Add Friend
+              </button>
+            </div>
+            <div className="relative flex items-center">
+              <button
+                onClick={() => setIsModalOpen(!isModalOpen)}
+                className="bg-primary text-gray-700 font-semibold px-5 py-2 rounded-full text-base"
+              >
+                {!isModalOpen ? 'Split Expense' : 'Cancel'}
+              </button>
+              <div className="absolute top-0 left-28">
+                <SplitExpense isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+              </div>
+            </div>
+          </div>
         </div>
         {data.map((user, i) => (
           <div key={i} className="mt-2">
