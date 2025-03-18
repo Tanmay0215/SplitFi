@@ -22,7 +22,7 @@ SplitFi is a web application that helps you track and split expenses within grou
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/splitfi.git
+git clone https://github.com/Tanmay0215/splitfi.git
 
 # Navigate to the project directory
 cd splitfi
@@ -43,7 +43,7 @@ npm start
 
 ## Technologies Used
 
-- Frontend: React.js, TailwindCSS
-- Backend: Node.js, Express
-- Database: PostgreSQL (neondb)
-- Authentication: ConnectKit Wallet
+- **Frontend**: React.js, TailwindCSS
+- **Backend**: Node.js, Express
+- **Database**: PostgreSQL (neondb)
+- **Authentication**: ConnectKit Wallet
