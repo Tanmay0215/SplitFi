@@ -61,16 +61,16 @@ const SplitExpense = ({ isOpen, setIsOpen }) => {
 
   return (
     <div className={`${isOpen ? 'w-full mx-auto' : 'hidden'}`}>
-      <div className="bg-gray-600 rounded-lg shadow-lg p-6 w-full min-w-sm">
-        <h2 className="text-xl font-bold text-center text-gray-200 mb-6">
-          Split Expense
+      <div className="bg-gray-800 rounded-lg shadow-lg p-6 w-full min-w-sm">
+        <h2 className="text-2xl font-bold text-center text-gray-200 mb-6 uppercase">
+          Add Expense
         </h2>
 
         <form onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="amount"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-300"
             >
               Amount
             </label>
@@ -82,23 +82,23 @@ const SplitExpense = ({ isOpen, setIsOpen }) => {
                 min="0"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full border border-gray-300 rounded-md text-lg py-1 outline-none"
+                className="w-full rounded-md text-lg py-1 outline-none border-b-2 mb-5 text-gray-200"
                 required
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Split with
             </label>
-            <div className="space-y-3 max-h-36 overflow-y-auto p-2 border border-gray-200 rounded-md text-base">
+            <div className="space-y-3 max-h-36 overflow-y-auto p-2 border border-gray-400 rounded-md text-base">
               {allFriends.map((friend) => (
                 <div key={friend.username} className="flex items-center">
                   <input
                     type="checkbox"
                     checked={selectedFriends.includes(friend.name)}
-                    className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                    className="size-4 rounded"
                     onChange={(e) => handleChange(e, friend)}
                   />
                   <label
@@ -108,9 +108,9 @@ const SplitExpense = ({ isOpen, setIsOpen }) => {
                     <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-800 font-medium mr-2">
                       {friend.name.charAt(0)}
                     </div>
-                    <span className="text-gray-400">
+                    <span className="text-gray-200">
                       {friend.name}{' '}
-                      <span className="text-gray-200 text-sm">
+                      <span className="text-gray-400 text-sm">
                         ({friend.ensName})
                       </span>
                     </span>
@@ -121,17 +121,14 @@ const SplitExpense = ({ isOpen, setIsOpen }) => {
           </div>
 
           {amount && selectedFriends.length > 0 && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md text-base">
-              <h3 className="font-medium text-green-800 mb-1">Summary</h3>
-              <p className="text-green-700">
-                Split among:{' '}
-                <span className="font-bold">
-                  {selectedFriends.length + 1} people
-                </span>
-              </p>
-              <p className="text-green-700 font-medium ">
-                Each person pays:{' '}
-                <span className="font-bold text-lg">${splittedAmount}</span>
+            <div className="mb-2 rounded-md text-base">
+              <p className="text-gray-300 font-medium text-md py-2">
+                {selectedFriends.map((friend) => (
+                  <div key={friend} className="mr-2">
+                    <p>{friend}</p>
+                    <span className="font-bold text-lg">${splittedAmount}</span>
+                  </div>
+                ))}
               </p>
             </div>
           )}
@@ -139,7 +136,7 @@ const SplitExpense = ({ isOpen, setIsOpen }) => {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-base px-4 py-2"
+              className="mt-3 bg-primary text-gray-700 font-medium rounded-md text-base px-4 py-2"
               onClick={handleSubmit}
             >
               Save Expense

@@ -62,26 +62,20 @@ const ScanQR = () => {
     <div className="flex flex-col items-center justify-center">
       {!hasScanned ? (
         <>
-          <video
-            ref={videoElemRef}
-            className="size-72 border-2 border-gray-300 rounded-lg"
-          />
+          <video ref={videoElemRef} className="size-72 rounded-lg" />
         </>
       ) : scanResult && typeof scanResult === 'object' ? (
-        <div className="flex flex-col items-start text-green-600 text-sm m-2 p-4 rounded bg-green-50 shadow-md w-full max-w-md">
-          <span className="font-medium text-gray-700 mb-2">Scan Result:</span>
-          <span className="font-medium text-gray-700">
+        <div className="flex flex-col items-center text-green-600 text-base m-2 p-8 rounded bg-gray-700 shadow-md w-full max-w-md">
+          <span className="font-medium text-gray-300 mb-2">Scan Result:</span>
+          <span className="font-medium text-gray-300">
             Name: {scanResult.name}
           </span>
-          <span className="font-medium text-gray-700">
+          <span className="font-medium text-gray-300">
             Username: {scanResult.username}
-          </span>
-          <span className="font-medium text-gray-700">
-            Address: {scanResult.address}
           </span>
           <button
             onClick={addFriend}
-            className="mt-4 bg-primary rounded-full px-6 py-2 text-gray-700 hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+            className="mt-6 bg-primary rounded-full px-6 py-2 text-gray-700 hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
           >
             Add Friend
           </button>
