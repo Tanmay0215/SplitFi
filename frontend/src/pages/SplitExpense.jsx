@@ -16,16 +16,16 @@ const SplitExpense = ({ isOpen, setIsOpen }) => {
     setAllFriends(response.data.friends)
   }
 
-  const fetchAllFriendsPayout = async () => {
-    const response = await axios.get('http://localhost:3000/payouts', {
-      name: name,
-    })
-    console.log(response.data)
-  }
+  // const fetchAllFriendsPayout = async () => {
+  //   const response = await axios.get('http://localhost:3000/payouts', {
+  //     name: name,
+  //   })
+  //   console.log(response.data)
+  // }
 
   useEffect(() => {
     fetchAllFriends()
-    fetchAllFriendsPayout()
+    // fetchAllFriendsPayout()
   }, [])
 
   const handleChange = (e, friend) => {
@@ -39,21 +39,21 @@ const SplitExpense = ({ isOpen, setIsOpen }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(selectedFriends)
-    try {
-      selectedFriends.map(async (friend) => {
-        const response = await axios.post('http://localhost:3000/payouts', {
-          name: friend,
-          amount: splittedAmount,
-          ownerName: name,
-        })
-        console.log(response.data)
-        if (response.status === 200) {
-          console.log('Expense added successfully' + friend + splittedAmount)
-        }
-      })
-    } catch (error) {
-      console.error('Error adding expense:', error.message)
-    }
+    // try {
+    //   selectedFriends.map(async (friend) => {
+    //     const response = await axios.post('http://localhost:3000/payouts', {
+    //       name: friend,
+    //       amount: splittedAmount,
+    //       ownerName: name,
+    //     })
+    //     console.log(response.data)
+    //     if (response.status === 200) {
+    //       console.log('Expense added successfully' + friend + splittedAmount)
+    //     }
+    //   })
+    // } catch (error) {
+    //   console.error('Error adding expense:', error.message)
+    // }
     setIsOpen(false)
     setAmount('')
     setSelectedFriends([])

@@ -5,13 +5,6 @@ import { BookUser, Lock } from 'lucide-react'
 const Landing = () => {
   return (
     <div className="flex flex-col justify-center items-center p-5">
-      Temporary Navbar
-      <div className="flex gap-5 bg-gray-600 p-2">
-        <Link to="/">Landing</Link>
-        <Link to="/onboarding">Onboarding</Link>
-        <Link to="/home">Home</Link>
-        <Link to="/dashboard">Dashboard</Link>
-      </div>
       <div className="min-h-screen flex justify-between items-center md:gap-10">
         <div>
           <h1 className="text-primary text-4xl md:text-6xl font-bold max-w-md mb-2">

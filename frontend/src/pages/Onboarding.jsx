@@ -96,6 +96,7 @@ const Onboarding = () => {
             }
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-4 cursor-not-allowed"
             disabled
+            required
           />
           {error && <p className="text-red-500 text-xs italic mb-2">{error}</p>}
           <button

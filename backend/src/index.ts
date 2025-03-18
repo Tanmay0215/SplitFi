@@ -70,7 +70,7 @@ app.post('/addfriend',async(req : any , res:any) => {
     }
 })
 
-app.post('/getfriends',async(req,res) => {
+app.post('/getfriends',async(req : any,res : any) => {
     const name : string = req.body.name;
     try{
         const friend = await prisma.user.findUnique({

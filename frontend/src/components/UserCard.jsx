@@ -6,8 +6,9 @@ const UserCard = ({ data }) => {
       <div className="rounded-full size-10 flex items-center justify-center bg-gray-800 text-white text-sm font-bold">
         {data.name.charAt(0).toUpperCase()}
       </div>
-      <div className="flex flex-col text-white text-sm">
+      <div className="flex items-baseline gap-3 text-white text-base">
         <p className="font-semibold">{data.name}</p>
+        <p className='text-xs text-gray-300'>@{data.ensName}</p>
       </div>
     </div>
   )
