@@ -90,7 +90,7 @@ const Home = () => {
           Add Friend
         </button>
       </div>
-      <div className="hidden md:flex md:w-1/2 md:flex-col mx-auto justify-center items-center">
+      <div className="absolute bottom-10 right-18 flex flex-col md:flex-row md:w-1/2 mx-auto justify-center items-center">
         <GenerateQR data={user} />
         <button
           className="flex gap-2 items-center bg-primary text-gray-700 font-semibold px-5 py-2 mt-3 rounded-full"
