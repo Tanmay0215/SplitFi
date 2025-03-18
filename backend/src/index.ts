@@ -70,7 +70,7 @@ app.post('/addfriend',async(req : any , res:any) => {
     }
 })
 
-app.get('/getfriends',async(req,res) => {
+app.post('/getfriends',async(req,res) => {
     const name : string = req.body.name;
     try{
         const friend = await prisma.user.findUnique({
@@ -135,7 +135,13 @@ app.post("/payouts", async (req, res) => {
 });
 
 app.get("/payouts", async (req, res) => {
-    const payouts = await prisma.payout.findMany({ include: { owner: true } });
+    let owner = req.body.owner;
+    const payouts = await prisma.payout.findUnique({
+        //@ts-ignore
+        where : {
+            name : owner
+        }
+    });
     res.json(payouts);
 });
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ConnectKitButton } from 'connectkit'
 import { useAccount } from 'wagmi'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const Onboarding = () => {
   const [name, setName] = useState('')
@@ -10,7 +11,7 @@ const Onboarding = () => {
   const navigate = useNavigate()
   const [error, setError] = useState('')
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault()
     if (!name) {
       setError('Name is required')
@@ -21,8 +22,18 @@ const Onboarding = () => {
       return
     }
 
-    localStorage.setItem('user', JSON.stringify({ name, username, address }))
-    navigate('/home')
+    try {
+      const req = await axios.post('http://localhost:3000/createUser', {
+        name: name,
+        ens: username,
+      })
+      localStorage.setItem('user', JSON.stringify({ name, username, address }))
+      if (req.status === 200) navigate('/home')
+    } catch (err) {
+      console.log(err)
+      setError('Login failed')
+      return
+    }
   }
 
   useEffect(() => {

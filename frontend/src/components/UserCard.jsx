@@ -8,11 +8,6 @@ const UserCard = ({ data }) => {
       </div>
       <div className="flex flex-col text-white text-sm">
         <p className="font-semibold">{data.name}</p>
-        <p className="text-gray-400 text-xs">
-          {data.address.length > 20
-            ? data.address.substring(0, 6) + '...' + data.address.substring(28, 32)
-            : data.address}
-        </p>
       </div>
     </div>
   )

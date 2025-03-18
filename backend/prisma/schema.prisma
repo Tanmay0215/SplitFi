@@ -14,20 +14,17 @@ datasource db {
 }
 
 model User {
-  name         String    @id
-  ensName      String    @unique
-  friends      User[] @relation("Friendship")
-  friendOf     User[] @relation("Friendship")
+  name      String   @id
+  ensName   String   @unique
+  friends   User[]   @relation("Friendship")
+  friendOf  User[]   @relation("Friendship")
+  payouts   Payout[]
 }
 
-model User2 {
-  name String @id
-  payout Payout[]
-}
-
-model Payout{
-  id Int @id @default(autoincrement())
-  name String
-  amount Int
-  owner User2 @relation(references: [name],fields: [name])
+model Payout {
+  id        Int      @id @default(autoincrement())
+  name      String
+  amount    Int
+  userName  String
+  owner     User     @relation(fields: [userName], references: [name])
 }

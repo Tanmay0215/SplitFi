@@ -74,7 +74,7 @@ app.post('/addfriend', (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
 }));
-app.get('/getfriends', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post('/getfriends', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const name = req.body.name;
     try {
         const friend = yield prisma.user.findUnique({
@@ -133,7 +133,13 @@ app.post("/payouts", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 }));
 app.get("/payouts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const payouts = yield prisma.payout.findMany({ include: { owner: true } });
+    let owner = req.body.owner;
+    const payouts = yield prisma.payout.findUnique({
+        //@ts-ignore
+        where: {
+            name: owner
+        }
+    });
     res.json(payouts);
 }));
 app.listen(3000, () => {

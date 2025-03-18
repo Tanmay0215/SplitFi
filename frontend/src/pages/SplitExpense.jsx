@@ -1,37 +1,69 @@
-import { useState } from 'react'
-import friends from '../data.json'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 const SplitExpense = ({ isOpen, setIsOpen }) => {
+  const { name } = JSON.parse(localStorage.getItem('user'))
   const [amount, setAmount] = useState('')
   const [selectedFriends, setSelectedFriends] = useState([])
   const splittedAmount = (amount / (selectedFriends.length + 1)).toFixed(2)
+  const [allFriends, setAllFriends] = useState([])
+
+  const fetchAllFriends = async () => {
+    const response = await axios.post('http://localhost:3000/getfriends', {
+      name: name,
+    })
+    console.log(response.data.friends)
+    setAllFriends(response.data.friends)
+  }
+
+  const fetchAllFriendsPayout = async () => {
+    const response = await axios.get('http://localhost:3000/payouts', {
+      name: name,
+    })
+    console.log(response.data)
+  }
+
+  useEffect(() => {
+    fetchAllFriends()
+    fetchAllFriendsPayout()
+  }, [])
 
   const handleChange = (e, friend) => {
-    if (e.target.checked)
-      setSelectedFriends([...selectedFriends, friend.username])
+    if (e.target.checked) setSelectedFriends([...selectedFriends, friend.name])
     else
       setSelectedFriends(
-        selectedFriends.filter((friendName) => friendName !== friend.username)
+        selectedFriends.filter((friendName) => friendName !== friend.name)
       )
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('Expense submitted:', {
-      amount,
-      selectedFriends,
-      splittedAmount,
-    })
+    console.log(selectedFriends)
+    try {
+      selectedFriends.map(async (friend) => {
+        const response = await axios.post('http://localhost:3000/payouts', {
+          name: friend,
+          amount: splittedAmount,
+          ownerName: name,
+        })
+        console.log(response.data)
+        if (response.status === 200) {
+          console.log('Expense added successfully' + friend + splittedAmount)
+        }
+      })
+    } catch (error) {
+      console.error('Error adding expense:', error.message)
+    }
     setIsOpen(false)
-    alert('Expense added successfully')
     setAmount('')
+    setSelectedFriends([])
   }
 
   return (
     <div className={`${isOpen ? 'w-full mx-auto' : 'hidden'}`}>
       <div className="bg-gray-600 rounded-lg shadow-lg p-6 w-full min-w-sm">
         <h2 className="text-xl font-bold text-center text-gray-200 mb-6">
-          Split an Expense
+          Split Expense
         </h2>
 
         <form onSubmit={handleSubmit}>
@@ -61,12 +93,12 @@ const SplitExpense = ({ isOpen, setIsOpen }) => {
               Split with
             </label>
             <div className="space-y-3 max-h-36 overflow-y-auto p-2 border border-gray-200 rounded-md text-base">
-              {friends.map((friend) => (
+              {allFriends.map((friend) => (
                 <div key={friend.username} className="flex items-center">
                   <input
-                    id={`friend-${friend.username}`}
                     type="checkbox"
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    checked={selectedFriends.includes(friend.name)}
+                    className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                     onChange={(e) => handleChange(e, friend)}
                   />
                   <label
@@ -79,7 +111,7 @@ const SplitExpense = ({ isOpen, setIsOpen }) => {
                     <span className="text-gray-400">
                       {friend.name}{' '}
                       <span className="text-gray-200 text-sm">
-                        ({friend.username})
+                        ({friend.ensName})
                       </span>
                     </span>
                   </label>

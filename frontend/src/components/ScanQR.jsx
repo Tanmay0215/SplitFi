@@ -1,11 +1,14 @@
 import { useState, useRef, useEffect } from 'react'
 import QrScanner from 'qr-scanner'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const ScanQR = () => {
   const [scanResult, setScanResult] = useState(null)
   const videoElemRef = useRef(null)
   const [qrScanner, setQrScanner] = useState(null)
   const [hasScanned, setHasScanned] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     let scanner = null
@@ -40,8 +43,19 @@ const ScanQR = () => {
     }
   }, [])
 
-  const addFriend = () => {
-    alert('Friend added')
+  const addFriend = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/addfriend', {
+        username: JSON.parse(localStorage.getItem('user')).name,
+        name: scanResult.name,
+      })
+      if (response.status === 200) {
+        alert('Friend added successfully')
+        navigate('/home')
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (

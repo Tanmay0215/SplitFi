@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import UserCard from '../components/UserCard'
-import data from '../data.json'
 import { useAccount } from 'wagmi'
 import { Copy, Plus } from 'lucide-react'
 import { ConnectKitButton } from 'connectkit'
@@ -12,6 +11,7 @@ import axios from 'axios'
 const Home = () => {
   const { name } = JSON.parse(localStorage.getItem('user'))
   const { address } = useAccount()
+  const [friends, setFriends] = useState([])
   const [isCopied, setIsCopied] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -25,20 +25,17 @@ const Home = () => {
     }, 2000)
   }
 
-  // const getFriends = async () => {
-  //   const response = await fetch('http://localhost:3000/getfriends', {
-  //     method: 'POST',
-  //     body: {
-  //       name: 'tanmayGupta',
-  //     },
-  //   })
-  //   const data = await response.json()
-  //   console.log(data)
-  // }
+  const getFriends = async () => {
+    const response = await axios.post('http://localhost:3000/getfriends', {
+      name: name,
+    })
+    console.log(response.data.friends)
+    setFriends(response.data.friends)
+  }
 
-  // useEffect(() => {
-  //   getFriends()
-  // })
+  useEffect(() => {
+    getFriends()
+  }, [])
 
   return (
     <div className="flex min-h-screen p-8">
@@ -76,11 +73,15 @@ const Home = () => {
             </div>
           </div>
         </div>
-        {data.map((user, i) => (
-          <div key={i} className="mt-2">
-            <UserCard data={user} />
-          </div>
-        ))}
+        {friends ? (
+          friends.map((user, i) => (
+            <div key={i} className="mt-6">
+              <UserCard data={user} />
+            </div>
+          ))
+        ) : (
+          <div className='p-20 flex items-center justify-center text-base'>Add friends to see them in your friend list</div>
+        )}
         <button
           onClick={() => navigate('/add-friend')}
           className="md:hidden mt-2 flex items-center justify-center rounded-full px-2 py-2 border-2 border-primary text-sm text-gray-300 font-semibold"
