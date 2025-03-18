@@ -81,18 +81,18 @@ app.post('/getfriends',async(req,res) => {
         })
         console.log(friend?.friends);
         console.log(friend);
-        res.status(200).json({
+        return res.status(200).json({
             friends : friend?.friends
         })
     }
     catch{
-        res.send(404).json({
+        return res.send(404).json({
             msg : "unable to perform currently try again later"
         })
     }
 })
 
-app.get('/ens',async (req,res) => {
+app.post('/ens',async (req,res) => {
     const name = req.body.name;
 
     try{
