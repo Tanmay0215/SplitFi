@@ -21,7 +21,6 @@ const Onboarding = () => {
   } = useWriteContract()
 
   const createUserOnContract = async (username) => {
-    console.log(username)
     try {
       writeContract({
         address: contractAddress,
@@ -38,11 +37,10 @@ const Onboarding = () => {
   }
 
   const submitHandler = async (e) => {
-    // localStorage.setItem(
-    //   'user',
-    //   JSON.stringify({ name, username, address })
-    // )
-    console.log("button clicked")
+    localStorage.setItem(
+      'user',
+      JSON.stringify({ name, username, address })
+    )
     e.preventDefault()
     if (!name) {
       setError('Name is required')
@@ -73,7 +71,7 @@ const Onboarding = () => {
       // Register on backend after successful blockchain transaction
       const registerOnBackend = async () => {
         try {
-          const req = await axios.post('http://localhost:3000/createUser', {
+          const req = await axios.post('https://splitfi.onrender.com/createUser', {
             name: name,
             ens: username,
           })

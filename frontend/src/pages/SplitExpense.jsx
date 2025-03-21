@@ -9,23 +9,23 @@ const SplitExpense = ({ isOpen, setIsOpen }) => {
   const [allFriends, setAllFriends] = useState([])
 
   const fetchAllFriends = async () => {
-    const response = await axios.post('http://localhost:3000/getfriends', {
+    const response = await axios.post('https://splitfi.onrender.com/getfriends', {
       name: name,
     })
     console.log(response.data.friends)
     setAllFriends(response.data.friends)
   }
 
-  const fetchAllFriendsPayout = async () => {
-    const response = await axios.get('http://localhost:3000/payouts', {
-      name: name,
-    })
-    console.log(response.data)
-  }
+  // const fetchAllFriendsPayout = async () => {
+  //   const response = await axios.get('https://splitfi.onrender.com/payouts', {
+  //     name: name,
+  //   })
+  //   console.log(response.data)
+  // }
 
   useEffect(() => {
     fetchAllFriends()
-    fetchAllFriendsPayout()
+    // fetchAllFriendsPayout()
   }, [])
 
   const handleChange = (e, friend) => {
@@ -43,7 +43,7 @@ const SplitExpense = ({ isOpen, setIsOpen }) => {
       selectedFriends.map(async (friend) => {
         console.log(friend, splittedAmount, name)
         console.log(typeof splittedAmount)
-        const response = await axios.post('http://localhost:3000/payouts', {
+        const response = await axios.post('https://splitfi.onrender.com/payouts', {
           name: friend,
           amount: splittedAmount,
           ownerName: name,

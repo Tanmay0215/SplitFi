@@ -9,7 +9,7 @@ const AddFriend = () => {
 
   const addFriend = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/addfriend', {
+      const response = await axios.post('https://splitfi.onrender.com/addfriend', {
         username: JSON.parse(localStorage.getItem('user')).name,
         name: name,
       })
